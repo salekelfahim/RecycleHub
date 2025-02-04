@@ -1,27 +1,56 @@
 # RecycleHub
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.11.
+## Overview
+RecycleHub is a Single Page Application (SPA) that connects individuals with certified waste collectors to manage recycling operations. Built with Angular, this platform facilitates waste collection requests, tracking, and rewards users through a points-based system.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### User Management
+- User registration and authentication system
+- Profile management for both collectors and individuals
+- Profile editing and account deletion capabilities
 
-## Code scaffolding
+### Collection Request System
+- Create collection requests with waste type specification
+- Support for multiple waste types per request
+- Optional photo upload functionality
+- Weight specification (minimum 1000g required)
+- Date and time slot selection
+- Maximum of 3 simultaneous pending requests
+- Total collection limit of 10kg per request
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Collection Process
+- Request status tracking (Pending, Occupied, In Progress, Validated, Rejected)
+- City-based collector assignment
+- On-site validation system
+- Photo documentation capability
 
-## Build
+### Rewards System
+Points attribution per kilogram:
+- Plastic: 2 points
+- Glass: 1 point
+- Paper: 1 point
+- Metal: 5 points
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Points can be converted to purchase vouchers:
+- 100 points = 50 Dh voucher
+- 200 points = 120 Dh voucher
+- 500 points = 350 Dh voucher
 
-## Running unit tests
+## Technical Stack
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Core Technologies
+- Angular 17+
+- NgRx for state management
+- RxJS/Observables
+- Bootstrap/Tailwind CSS
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Key Technical Features
+- Dependency Injection
+- Reactive Forms/Template Driven Forms
+- Route Guards and Resolvers
+- Custom Pipes
+- Parent/Child Component Communication
+- Local Storage for data persistence
+- Form Validation with error messaging
+- Responsive Design
