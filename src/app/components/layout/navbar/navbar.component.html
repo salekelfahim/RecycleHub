@@ -1,0 +1,47 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-content">
+      <div class="logo-container">
+        <a href="/" class="logo-link">
+          <span class="logo-text">RecycleHub</span>
+        </a>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="desktop-menu">
+        <a routerLink="/" class="nav-link">Home</a>
+        <a routerLink="/how-it-works" class="nav-link">How it Works</a>
+        <a routerLink="/services" class="nav-link">Services</a>
+        <a routerLink="/rewards" class="nav-link">Rewards</a>
+        <button class="login-button">Login</button>
+        <button class="register-button">Register</button>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="mobile-menu-button">
+        <button (click)="toggleMenu()" class="menu-toggle">
+          <svg [class]="isMenuOpen ? 'hidden' : 'block'" class="menu-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg [class]="isMenuOpen ? 'block' : 'hidden'" class="close-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div [class]="isMenuOpen ? 'mobile-menu show' : 'mobile-menu'">
+    <div class="mobile-menu-items">
+      <a routerLink="/" class="mobile-nav-link">Home</a>
+      <a routerLink="/how-it-works" class="mobile-nav-link">How it Works</a>
+      <a routerLink="/services" class="mobile-nav-link">Services</a>
+      <a routerLink="/rewards" class="mobile-nav-link">Rewards</a>
+      <div class="mobile-buttons">
+        <button class="mobile-login-button">Login</button>
+        <button class="mobile-register-button">Register</button>
+      </div>
+    </div>
+  </div>
+</nav>
