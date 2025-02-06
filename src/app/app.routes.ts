@@ -8,6 +8,7 @@ import {
 import {MyPostsComponent} from "./components/particulier/my-posts/my-posts.component";
 import {AddPostComponent} from "./components/particulier/add-post/add-post.component";
 import {ExchangeComponent} from "./components/particulier/exchange/exchange.component";
+import {ProfileComponent} from "./components/profile/profile.component";
 
 export const routes: Routes = [
   {
@@ -32,6 +33,7 @@ export const routes: Routes = [
       { path: 'posts', component: MyPostsComponent },
       { path: 'add-post', component: AddPostComponent },
       { path: 'exchange', component: ExchangeComponent},
+      { path: 'profile', component: ProfileComponent},
     ]
   },
 ];
