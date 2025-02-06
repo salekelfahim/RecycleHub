@@ -7,6 +7,7 @@ import {
 } from "./components/particulier/particulier-dashboard/particulier-dashboard.component";
 import {MyPostsComponent} from "./components/particulier/my-posts/my-posts.component";
 import {AddPostComponent} from "./components/particulier/add-post/add-post.component";
+import {ExchangeComponent} from "./components/particulier/exchange/exchange.component";
 
 export const routes: Routes = [
   {
@@ -30,6 +31,7 @@ export const routes: Routes = [
     children: [
       { path: 'posts', component: MyPostsComponent },
       { path: 'add-post', component: AddPostComponent },
+      { path: 'exchange', component: ExchangeComponent},
     ]
   },
 ];
