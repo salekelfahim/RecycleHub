@@ -12,6 +12,7 @@ import {ProfileComponent} from "./components/profile/profile.component";
 import {EditProfileComponent} from "./components/edit-profile/edit-profile.component";
 import {CollectorDashboardComponent} from "./components/collector/collector-dashboard/collector-dashboard.component";
 import {CollectionsComponent} from "./components/collector/collections/collections.component";
+import {MyCollectionsComponent} from "./components/collector/my-collections/my-collections.component";
 
 export const routes: Routes = [
   {
@@ -45,6 +46,7 @@ export const routes: Routes = [
     component: CollectorDashboardComponent,
     children: [
       { path: 'collections', component: CollectionsComponent },
+      { path: 'my-collections', component: MyCollectionsComponent },
     ]
   },
 ];
