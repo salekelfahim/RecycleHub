@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "fullName": "John Doe",
       "email": "john@example.com",
       "password": "password123",
@@ -11,7 +11,7 @@
       "city": "Safi"
     },
     {
-      "id": 2,
+      "id": "2",
       "fullName": "Jane Smith",
       "email": "jane@example.com",
       "password": "password123",
@@ -21,7 +21,7 @@
       "city": "Casa"
     },
     {
-      "id": 3,
+      "id": "3",
       "fullName": "Alice Johnson",
       "email": "alice@example.com",
       "password": "password123",
@@ -31,7 +31,7 @@
       "city": "Fes"
     },
     {
-      "id": 4,
+      "id": "4",
       "fullName": "Bob Brown",
       "email": "bob@example.com",
       "password": "password123",
@@ -39,6 +39,16 @@
       "dateOfBirth": "1980-08-30",
       "address": "101 Pine St",
       "city": "Tata"
+    },
+    {
+      "id": "a5f7",
+      "fullName": "Raya Walters",
+      "email": "qoda@mailinator.com",
+      "password": "password123",
+      "dateOfBirth": "1993-03-09",
+      "address": "Elit voluptate comm",
+      "city": "Casa",
+      "role": "particulier"
     }
   ]
 }

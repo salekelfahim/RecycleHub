@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+
+import {AuthGuard} from "./guards/auth-guard.guard";
 import {LandingComponent} from "./components/landing/landing.component";
 import {RegisterComponent} from "./components/auth/register/register.component";
 import {LoginComponent} from "./components/auth/login/login.component";
@@ -33,20 +35,24 @@ export const routes: Routes = [
   {
     path: 'particulier',
     component: ParticulierDashboardComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['particulier'] },
     children: [
       { path: 'posts', component: MyPostsComponent },
       { path: 'add-post', component: AddPostComponent },
-      { path: 'exchange', component: ExchangeComponent},
-      { path: 'profile', component: ProfileComponent},
-      { path: 'edit-profile', component: EditProfileComponent},
+      { path: 'exchange', component: ExchangeComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'edit-profile', component: EditProfileComponent }
     ]
   },
   {
     path: 'collector',
     component: CollectorDashboardComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['collector'] },
     children: [
       { path: 'collections', component: CollectionsComponent },
-      { path: 'my-collections', component: MyCollectionsComponent },
+      { path: 'my-collections', component: MyCollectionsComponent }
     ]
-  },
+  }
 ];
