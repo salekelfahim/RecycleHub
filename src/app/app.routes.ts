@@ -9,6 +9,9 @@ import {MyPostsComponent} from "./components/particulier/my-posts/my-posts.compo
 import {AddPostComponent} from "./components/particulier/add-post/add-post.component";
 import {ExchangeComponent} from "./components/particulier/exchange/exchange.component";
 import {ProfileComponent} from "./components/profile/profile.component";
+import {EditProfileComponent} from "./components/edit-profile/edit-profile.component";
+import {CollectorDashboardComponent} from "./components/collector/collector-dashboard/collector-dashboard.component";
+import {CollectionsComponent} from "./components/collector/collections/collections.component";
 
 export const routes: Routes = [
   {
@@ -27,13 +30,21 @@ export const routes: Routes = [
     title: 'RecycleHub - Login'
   },
   {
-    path: 'dashboard',
+    path: 'particulier',
     component: ParticulierDashboardComponent,
     children: [
       { path: 'posts', component: MyPostsComponent },
       { path: 'add-post', component: AddPostComponent },
       { path: 'exchange', component: ExchangeComponent},
       { path: 'profile', component: ProfileComponent},
+      { path: 'edit-profile', component: EditProfileComponent},
+    ]
+  },
+  {
+    path: 'collector',
+    component: CollectorDashboardComponent,
+    children: [
+      { path: 'collections', component: CollectionsComponent },
     ]
   },
 ];
