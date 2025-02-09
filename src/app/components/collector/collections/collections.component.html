@@ -1,188 +1,66 @@
 <div id="collection">
-  <main class="flex-1 bg-gradient-to-br from-green-50 to-blue-50 p-6 md:p-10">
-    <div class="max-w-7xl mx-auto space-y-8">
-      <h2 class="text-3xl font-bold mb-8">Available Collections</h2>
-      <div class="flex flex-wrap gap-4 mb-8"> <button
-        class="px-6 py-2 rounded-full bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300">All</button>
-        <button
-          class="px-6 py-2 rounded-full border border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white transition-all duration-300">Plastic</button>
-        <button
-          class="px-6 py-2 rounded-full border border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white transition-all duration-300">Paper</button>
-        <button
-          class="px-6 py-2 rounded-full border border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white transition-all duration-300">Glass</button>
-        <button
-          class="px-6 py-2 rounded-full border border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white transition-all duration-300">Metal</button>
-        <button
-          class="px-6 py-2 rounded-full border border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white transition-all duration-300">Electronics</button>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div
-          class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
-          <div class="aspect-square bg-gray-100 relative overflow-hidden"> <img
-            src="https://webcrumbs.cloud/placeholder" alt="Recycle item"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /> </div>
-          <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between"> <span
-              class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium"> Plastic </span> <span
-              class="font-bold">2.5 kg</span> </div> <button
-            class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2">
-            <span class="material-symbols-outlined">local_shipping</span> <span>Collect</span> </button>
-          </div>
+    <main class="flex-1 bg-gradient-to-br from-green-50 to-blue-50 p-6 md:p-10">
+        <div class="max-w-7xl mx-auto space-y-8">
+            <h2 class="text-3xl font-bold mb-8">Available Collections</h2>
+            <div class="flex flex-wrap gap-4 mb-8">
+                <button
+                        class="px-6 py-2 rounded-full bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300"
+                        (click)="filterByType('All')">
+                    All
+                </button>
+                <button
+                        *ngFor="let type of wasteTypes"
+                        class="px-6 py-2 rounded-full border border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white transition-all duration-300"
+                        (click)="filterByType(type)">
+                    {{ type }}
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div
+                        *ngFor="let post of filteredPosts"
+                        class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="aspect-square bg-gray-100 relative overflow-hidden">
+                        <img
+                                [src]="post.wastePhotos[0] || 'https://webcrumbs.cloud/placeholder'"
+                                alt="Recycle item"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+              <span
+                      class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium">
+                {{ post.wasteItems[0].type }}
+              </span>
+                            <span class="font-bold">{{ post.wasteItems[0].weight }} g</span>
+                        </div>
+                        <button
+                                class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2"
+                                (click)="collectPost(post.id)">
+                            <span class="material-symbols-outlined">local_shipping</span>
+                            <span>Collect</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center space-x-2">
+                <button
+                        class="px-4 py-2 rounded-lg border hover:bg-gray-50 transition-colors"
+                        (click)="previousPage()">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button
+                        *ngFor="let page of getPageNumbers()"
+                        class="px-4 py-2 rounded-lg border"
+                        [ngClass]="{'bg-[#2E7D32] text-white': currentPage === page, 'hover:bg-gray-50': currentPage !== page}"
+                        (click)="goToPage(page)">
+                    {{ page }}
+                </button>
+                <button
+                        class="px-4 py-2 rounded-lg border hover:bg-gray-50 transition-colors"
+                        (click)="nextPage()">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
         </div>
-        <div
-          class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
-          <div class="aspect-square bg-gray-100 relative overflow-hidden"> <img
-            src="https://webcrumbs.cloud/placeholder" alt="Recycle item"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /> </div>
-          <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between"> <span
-              class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium"> Paper </span> <span
-              class="font-bold">5 kg</span> </div> <button
-            class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2">
-            <span class="material-symbols-outlined">local_shipping</span> <span>Collect</span> </button>
-          </div>
-        </div>
-        <div
-          class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
-          <div class="aspect-square bg-gray-100 relative overflow-hidden"> <img
-            src="https://webcrumbs.cloud/placeholder" alt="Recycle item"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /> </div>
-          <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between"> <span
-              class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium"> Glass </span> <span
-              class="font-bold">7.5 kg</span> </div> <button
-            class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2">
-            <span class="material-symbols-outlined">local_shipping</span> <span>Collect</span> </button>
-          </div>
-        </div>
-        <div
-          class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
-          <div class="aspect-square bg-gray-100 relative overflow-hidden"> <img
-            src="https://webcrumbs.cloud/placeholder" alt="Recycle item"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /> </div>
-          <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between"> <span
-              class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium"> Metal </span> <span
-              class="font-bold">10 kg</span> </div> <button
-            class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2">
-            <span class="material-symbols-outlined">local_shipping</span> <span>Collect</span> </button>
-          </div>
-        </div>
-        <div
-          class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
-          <div class="aspect-square bg-gray-100 relative overflow-hidden"> <img
-            src="https://webcrumbs.cloud/placeholder" alt="Recycle item"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /> </div>
-          <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between"> <span
-              class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium"> Electronics </span>
-              <span class="font-bold">12.5 kg</span>
-            </div> <button
-            class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2">
-            <span class="material-symbols-outlined">local_shipping</span> <span>Collect</span> </button>
-          </div>
-        </div>
-        <div
-          class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
-          <div class="aspect-square bg-gray-100 relative overflow-hidden"> <img
-            src="https://webcrumbs.cloud/placeholder" alt="Recycle item"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /> </div>
-          <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between"> <span
-              class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium"> Plastic </span> <span
-              class="font-bold">15 kg</span> </div> <button
-            class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2">
-            <span class="material-symbols-outlined">local_shipping</span> <span>Collect</span> </button>
-          </div>
-        </div>
-        <div
-          class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
-          <div class="aspect-square bg-gray-100 relative overflow-hidden"> <img
-            src="https://webcrumbs.cloud/placeholder" alt="Recycle item"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /> </div>
-          <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between"> <span
-              class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium"> Paper </span> <span
-              class="font-bold">17.5 kg</span> </div> <button
-            class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2">
-            <span class="material-symbols-outlined">local_shipping</span> <span>Collect</span> </button>
-          </div>
-        </div>
-        <div
-          class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
-          <div class="aspect-square bg-gray-100 relative overflow-hidden"> <img
-            src="https://webcrumbs.cloud/placeholder" alt="Recycle item"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /> </div>
-          <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between"> <span
-              class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium"> Glass </span> <span
-              class="font-bold">20 kg</span> </div> <button
-            class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2">
-            <span class="material-symbols-outlined">local_shipping</span> <span>Collect</span> </button>
-          </div>
-        </div>
-        <div
-          class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
-          <div class="aspect-square bg-gray-100 relative overflow-hidden"> <img
-            src="https://webcrumbs.cloud/placeholder" alt="Recycle item"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /> </div>
-          <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between"> <span
-              class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium"> Metal </span> <span
-              class="font-bold">22.5 kg</span> </div> <button
-            class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2">
-            <span class="material-symbols-outlined">local_shipping</span> <span>Collect</span> </button>
-          </div>
-        </div>
-        <div
-          class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
-          <div class="aspect-square bg-gray-100 relative overflow-hidden"> <img
-            src="https://webcrumbs.cloud/placeholder" alt="Recycle item"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /> </div>
-          <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between"> <span
-              class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium"> Electronics </span>
-              <span class="font-bold">25 kg</span>
-            </div> <button
-            class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2">
-            <span class="material-symbols-outlined">local_shipping</span> <span>Collect</span> </button>
-          </div>
-        </div>
-        <div
-          class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
-          <div class="aspect-square bg-gray-100 relative overflow-hidden"> <img
-            src="https://webcrumbs.cloud/placeholder" alt="Recycle item"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /> </div>
-          <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between"> <span
-              class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium"> Plastic </span> <span
-              class="font-bold">27.5 kg</span> </div> <button
-            class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2">
-            <span class="material-symbols-outlined">local_shipping</span> <span>Collect</span> </button>
-          </div>
-        </div>
-        <div
-          class="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden group">
-          <div class="aspect-square bg-gray-100 relative overflow-hidden"> <img
-            src="https://webcrumbs.cloud/placeholder" alt="Recycle item"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /> </div>
-          <div class="p-6 space-y-4">
-            <div class="flex items-center justify-between"> <span
-              class="px-4 py-1 bg-[#2E7D32]/10 rounded-full text-[#2E7D32] font-medium"> Paper </span> <span
-              class="font-bold">30 kg</span> </div> <button
-            class="w-full px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md flex items-center justify-center space-x-2">
-            <span class="material-symbols-outlined">local_shipping</span> <span>Collect</span> </button>
-          </div>
-        </div>
-      </div>
-      <div class="flex justify-center space-x-2"> <button
-        class="px-4 py-2 rounded-lg border hover:bg-gray-50 transition-colors"> <span
-        class="material-symbols-outlined">chevron_left</span> </button> <button
-        class="px-4 py-2 rounded-lg border bg-[#2E7D32] text-white">1</button> <button
-        class="px-4 py-2 rounded-lg border hover:bg-gray-50 transition-colors">2</button> <button
-        class="px-4 py-2 rounded-lg border hover:bg-gray-50 transition-colors">3</button> <button
-        class="px-4 py-2 rounded-lg border hover:bg-gray-50 transition-colors"> <span
-        class="material-symbols-outlined">chevron_right</span> </button> </div>
-    </div>
-  </main>
+    </main>
 </div>
