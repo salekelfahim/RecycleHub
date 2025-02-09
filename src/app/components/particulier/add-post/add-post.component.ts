@@ -22,7 +22,8 @@ export class AddPostComponent {
     timeSlot: '',
     additionalNotes: '',
     status: 'pending',
-    userId: ''
+    userId: '',
+    collectorId: ''
   };
 
   constructor(private http: HttpClient, private authService: AuthService, private router: Router) {}
@@ -36,20 +37,15 @@ export class AddPostComponent {
     });
   }
 
-  // Handle file selection
   async onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       try {
-        // Convert each file to base64 and store
         const base64Promises = Array.from(input.files).map(file => this.fileToBase64(file));
         const base64Results = await Promise.all(base64Promises);
 
-        // Add new base64 strings to existing photos
         this.post.wastePhotos = [...this.post.wastePhotos, ...base64Results];
 
-        // Optional: Show preview of uploaded images
-        // You can add this functionality if needed
       } catch (error) {
         console.error('Error converting files to base64:', error);
         alert('Error processing images. Please try again.');
@@ -61,7 +57,6 @@ export class AddPostComponent {
     const user = this.authService.getUser();
     this.post.userId = user.id;
 
-    // Ensure total weight is within limits
     const totalWeight = this.post.wasteItems.reduce((sum, item) => sum + item.weight, 0);
     if (totalWeight < 1000) {
       alert('Total weight must be at least 1000g.');
@@ -72,7 +67,6 @@ export class AddPostComponent {
       return;
     }
 
-    // Add validation for images
     if (this.post.wastePhotos.length === 0) {
       alert('Please upload at least one photo of the waste.');
       return;
@@ -98,7 +92,6 @@ export class AddPostComponent {
     this.post.wasteItems.splice(index, 1);
   }
 
-  // Add method to remove uploaded photos
   removePhoto(index: number) {
     this.post.wastePhotos.splice(index, 1);
   }

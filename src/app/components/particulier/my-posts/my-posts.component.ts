@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../services/auth.service';
-import {NgClass, NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 
 
 interface WasteItem {
@@ -22,7 +22,8 @@ interface Post {
     standalone: true,
     imports: [
         NgForOf,
-        NgClass
+        NgClass,
+        NgIf
     ],
     templateUrl: './my-posts.component.html',
     styleUrl: './my-posts.component.css'

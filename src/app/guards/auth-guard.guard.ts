@@ -20,9 +20,9 @@ export class AuthGuard implements CanActivate {
 
     if (allowedRoles && !allowedRoles.includes(user.role)) {
       if (user.role === 'particulier') {
-        this.router.navigate(['/particulier']);
+        this.router.navigate(['/particulier/posts']);
       } else if (user.role === 'collector') {
-        this.router.navigate(['/collector']);
+        this.router.navigate(['/collector/collections']);
       } else {
         this.router.navigate(['/login']);
       }

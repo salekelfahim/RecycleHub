@@ -3,14 +3,9 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export interface WasteItem {
-  type: string;
-  weight: number;
-}
-
 export interface Post {
   id: string;
-  wasteItems: WasteItem[];
+  wasteItems: { type: string; weight: number }[];
   wastePhotos: string[];
   status: string;
   collectionDate: string;
@@ -19,6 +14,7 @@ export interface Post {
   timeSlot: string;
   additionalNotes: string;
   userId: string;
+  collectorId: string;
 }
 
 @Injectable({
@@ -31,6 +27,27 @@ export class CollectionService {
 
   constructor(private http: HttpClient) {}
 
+  // getMyCollections(collectorId: string, page: number = 1, limit: number = 8): Observable<{ posts: Post[], total: number }> {
+  //   const start = (page - 1) * limit;
+  //   return this.http.get<Post[]>(
+  //     `${this.apiUrl}/posts?collectorId=${collectorId}&_start=${start}&_limit=${limit}&_count=true`,
+  //     { observe: 'response' }
+  //   ).pipe(
+  //     map((response: HttpResponse<Post[]>) => {
+  //       const total = parseInt(response.headers.get('X-Total-Count') || '0', 10);
+  //       return {
+  //         posts: response.body || [],
+  //         total
+  //       };
+  //     })
+  //   );
+  // }
+
+  updatePostStatus(postId: string, newStatus: string): Observable<Post> {
+    return this.http.patch<Post>(`${this.apiUrl}/posts/${postId}`, {
+      status: newStatus
+    });
+  }
   getPendingPosts(city: string, page: number = 1, limit: number = 12): Observable<{ posts: Post[], total: number }> {
     const start = (page - 1) * limit;
     return this.http.get<Post[]>(
@@ -60,7 +77,22 @@ export class CollectionService {
     );
   }
 
-  getMyCollections(collectorId: string): Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.apiUrl}/posts?collectorId=${collectorId}`);
+  getMyCollections(collectorId: string, page: number = 1, limit: number = 8): Observable<{ posts: Post[], total: number }> {
+    const start = (page - 1) * limit;
+    return this.http.get<Post[]>(
+      `${this.apiUrl}/posts?collectorId=${collectorId}&_start=${start}&_limit=${limit}`,
+      { observe: 'response' } // Get headers for total count
+    ).pipe(
+      map((response: HttpResponse<Post[]>) => {
+        const filteredPosts = (response.body || []).filter(post => post.collectorId === collectorId); // Ensure only assigned collections
+        const total = filteredPosts.length; // Recalculate total count after filtering
+        return {
+          posts: filteredPosts,
+          total
+        };
+      })
+    );
   }
+
+
 }
