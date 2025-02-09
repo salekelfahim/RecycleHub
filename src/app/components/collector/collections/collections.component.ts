@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CollectionService } from "../../../services/collection.service";
-import { AuthService } from "../../../services/auth.service";
-import {NgClass, NgForOf} from "@angular/common";
+import { Store, select } from '@ngrx/store';
+import { loadPosts, collectPost } from '../../../store/post.actions';
+import {selectPosts, selectError, selectLoading} from '../../../store/post.selectors';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../../services/auth.service';
+import {AsyncPipe, NgClass, NgForOf} from '@angular/common';
 
 export interface WasteItem {
   type: string;
@@ -26,14 +29,16 @@ export interface Post {
   standalone: true,
   imports: [
     NgForOf,
-    NgClass
+    NgClass,
+    AsyncPipe
   ],
   templateUrl: './collections.component.html',
   styleUrl: './collections.component.css'
 })
 export class CollectionsComponent implements OnInit {
-  posts: Post[] = [];
-  filteredPosts: Post[] = [];
+  posts$: Observable<Post[]>;
+  loading$: Observable<boolean>;
+  error$: Observable<string | null>;
   currentPage = 1;
   totalPages = 1;
   selectedType = 'All';
@@ -41,9 +46,13 @@ export class CollectionsComponent implements OnInit {
   collectorCity: string = '';
 
   constructor(
-      private collectionService: CollectionService,
-      private authService: AuthService // Inject AuthService
-  ) {}
+    private store: Store,
+    private authService: AuthService
+  ) {
+    this.posts$ = this.store.select(selectPosts);
+    this.loading$ = this.store.select(selectLoading);
+    this.error$ = this.store.select(selectError);
+  }
 
   ngOnInit() {
     const collector = this.authService.getUser();
@@ -52,60 +61,14 @@ export class CollectionsComponent implements OnInit {
   }
 
   loadPosts() {
-    this.collectionService.getPendingPosts(this.collectorCity, this.currentPage).subscribe({
-      next: ({ posts, total }) => {
-        this.posts = posts;
-        this.filteredPosts = this.filterPosts();
-        this.totalPages = Math.ceil(total / 12);
-      },
-      error: (error) => console.error('Error loading posts:', error)
-    });
-  }
-
-  filterByType(type: string) {
-    this.selectedType = type;
-    this.filteredPosts = this.filterPosts();
-  }
-
-  filterPosts(): Post[] {
-    if (this.selectedType === 'All') {
-      return this.posts;
-    }
-    return this.posts.filter(post =>
-        post.wasteItems.some(item => item.type === this.selectedType)
-    );
+    this.store.dispatch(loadPosts({ city: this.collectorCity, page: this.currentPage }));
   }
 
   collectPost(postId: string) {
     const collectorId = this.authService.getUser().id;
-    this.collectionService.collectPost(postId, collectorId).subscribe({
-      next: () => {
-        this.loadPosts();
-      },
-      error: (error) => console.error('Error collecting post:', error)
-    });
+    this.store.dispatch(collectPost({ postId, collectorId }));
+    this.store.dispatch(loadPosts({ city: this.collectorCity, page: this.currentPage }));
   }
 
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.loadPosts();
-    }
-  }
 
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.loadPosts();
-    }
-  }
-
-  goToPage(page: number) {
-    this.currentPage = page;
-    this.loadPosts();
-  }
-
-  getPageNumbers(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
 }

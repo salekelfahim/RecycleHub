@@ -68,24 +68,18 @@ export class CollectionService {
     return this.http.patch<Post>(`${this.apiUrl}/posts/${postId}`, {
       status: 'Occupied',
       collectorId
-    }).pipe(
-      map(updatedPost => {
-        const currentCollections = this.myCollectionsSubject.value;
-        this.myCollectionsSubject.next([...currentCollections, updatedPost]);
-        return updatedPost;
-      })
-    );
+    });
   }
 
   getMyCollections(collectorId: string, page: number = 1, limit: number = 8): Observable<{ posts: Post[], total: number }> {
     const start = (page - 1) * limit;
     return this.http.get<Post[]>(
       `${this.apiUrl}/posts?collectorId=${collectorId}&_start=${start}&_limit=${limit}`,
-      { observe: 'response' } // Get headers for total count
+      { observe: 'response' }
     ).pipe(
       map((response: HttpResponse<Post[]>) => {
-        const filteredPosts = (response.body || []).filter(post => post.collectorId === collectorId); // Ensure only assigned collections
-        const total = filteredPosts.length; // Recalculate total count after filtering
+        const filteredPosts = (response.body || []).filter(post => post.collectorId === collectorId);
+        const total = filteredPosts.length;
         return {
           posts: filteredPosts,
           total

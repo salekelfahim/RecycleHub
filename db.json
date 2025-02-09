@@ -204,8 +204,9 @@
       "collectionDate": "2025-03-05",
       "timeSlot": "10:00",
       "additionalNotes": "Fragile items.",
-      "status": "pending",
-      "userId": "user_6"
+      "status": "Occupied",
+      "userId": "user_6",
+      "collectorId": "1"
     },
     {
       "id": "post_2_user_6",
@@ -223,8 +224,9 @@
       "collectionDate": "2025-03-12",
       "timeSlot": "14:30",
       "additionalNotes": "Handle with care.",
-      "status": "pending",
-      "userId": "user_6"
+      "status": "In Progress",
+      "userId": "user_6",
+      "collectorId": "1"
     },
     {
       "id": "post_3_user_6",
@@ -266,8 +268,9 @@
       "collectionDate": "2025-03-26",
       "timeSlot": "16:00",
       "additionalNotes": "Bulk paper waste.",
-      "status": "pending",
-      "userId": "user_6"
+      "status": "Occupied",
+      "userId": "user_6",
+      "collectorId": "1"
     },
     {
       "id": "post_5_user_6",
@@ -285,8 +288,9 @@
       "collectionDate": "2025-04-02",
       "timeSlot": "11:30",
       "additionalNotes": "Large plastic items.",
-      "status": "pending",
-      "userId": "user_6"
+      "status": "Occupied",
+      "userId": "user_6",
+      "collectorId": "1"
     },
     {
       "id": "post_1_user_7",
@@ -617,8 +621,9 @@
       "collectionDate": "2025-03-09",
       "timeSlot": "15:00",
       "additionalNotes": "Recyclable materials",
-      "status": "pending",
-      "userId": "user_10"
+      "status": "Occupied",
+      "userId": "user_10",
+      "collectorId": "1"
     },
     {
       "id": "post_2_user_10",
@@ -679,8 +684,9 @@
       "collectionDate": "2025-03-30",
       "timeSlot": "20:00",
       "additionalNotes": "Recyclable paper",
-      "status": "pending",
-      "userId": "user_10"
+      "status": "Occupied",
+      "userId": "user_10",
+      "collectorId": "1"
     },
     {
       "id": "post_5_user_10",
@@ -698,8 +704,9 @@
       "collectionDate": "2025-04-06",
       "timeSlot": "15:30",
       "additionalNotes": "Plastic waste collection",
-      "status": "pending",
-      "userId": "user_10"
+      "status": "Occupied",
+      "userId": "user_10",
+      "collectorId": "1"
     },
     {
       "id": "d75c",
