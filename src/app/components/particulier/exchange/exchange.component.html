@@ -1,0 +1,37 @@
+<div id="exchange">
+  <main class="flex-1 bg-gradient-to-br from-green-50 to-blue-50 p-6 md:p-10">
+    <div class="max-w-3xl mx-auto space-y-8">
+      <div class="p-8 bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+        <div class="flex items-center justify-between">
+          <h2 class="text-2xl font-bold">Mes Points</h2>
+          <div class="flex items-center space-x-3 bg-[#2E7D32]/10 px-6 py-3 rounded-xl">
+            <span class="material-symbols-outlined text-[#2E7D32] text-2xl">stars</span>
+            <span class="text-2xl font-bold text-[#2E7D32]">{{ userPoints }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-8 bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+        <h2 class="text-2xl font-bold mb-8">Options d'Échange</h2>
+        <div class="grid gap-6">
+          <div *ngFor="let option of exchangeOptions" class="p-6 border rounded-xl hover:shadow-lg transition-all duration-300 hover:border-[#2E7D32] group cursor-pointer bg-white">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center space-x-6">
+                <span class="material-symbols-outlined text-4xl text-gray-600 group-hover:text-[#2E7D32] transition-colors">redeem</span>
+                <div>
+                  <p class="text-xl font-semibold mb-1">{{ option.points }} Points</p>
+                  <p class="text-gray-600">{{ option.reward }}</p>
+                </div>
+              </div>
+              <button
+                (click)="exchangePoints(option.points)"
+                class="px-6 py-3 rounded-xl bg-[#2E7D32] text-white hover:bg-[#1B5E20] transition-all duration-300 hover:shadow-md">
+                Échanger
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,81 @@
+<div id="addp">
+    <main class="flex-1 bg-gradient-to-br from-green-50 to-blue-50 p-4 md:p-8">
+        <div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-xl">
+            <h2 class="text-2xl font-semibold mb-6">Add Recycling Post</h2>
+            <form class="space-y-6" (ngSubmit)="onSubmit()">
+
+                <!-- Waste Type and Weight -->
+                <div class="space-y-2">
+                    <label class="block font-medium">Waste Items</label>
+                    <div *ngFor="let item of post.wasteItems; let i = index" class="flex gap-2">
+                        <select class="w-1/2 p-3 border rounded-lg"
+                                [(ngModel)]="post.wasteItems[i].type" name="wasteItemsType{{i}}">
+                            <option value="plastic">Plastic</option>
+                            <option value="glass">Glass</option>
+                            <option value="paper">Paper</option>
+                            <option value="metal">Metal</option>
+                        </select>
+                        <input type="number" min="1000" placeholder="Weight (grams)"
+                               class="w-1/2 p-3 border rounded-lg"
+                               [(ngModel)]="post.wasteItems[i].weight" name="wasteItemsWeight{{i}}" required />
+                        <button type="button" (click)="removeWasteItem(i)" class="text-red-500">✖</button>
+                    </div>
+                    <button type="button" (click)="addWasteItem()" class="text-green-500">+ Add More</button>
+                </div>
+
+                <!-- Waste Photos -->
+                <div class="space-y-2">
+                    <label class="block font-medium">Waste Photos</label>
+                    <div class="border-2 border-dashed rounded-lg p-6 text-center hover:border-green-500 transition-all duration-300"
+                         (click)="fileInput.click()">
+                        <span class="material-symbols-outlined text-4xl mb-2">cloud_upload</span>
+                        <p>Drop your photos here or click to select</p>
+                        <input type="file" #fileInput class="hidden" accept="image/*" multiple (change)="onFileChange($event)" />
+                    </div>
+                </div>
+
+                <!-- Collection Address -->
+                <div class="space-y-2">
+                    <label class="block font-medium">Collection Address</label>
+                    <input type="text" class="w-full p-3 border rounded-lg hover:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all duration-300"
+                           [(ngModel)]="post.collectionAddress" name="collectionAddress" required />
+                </div>
+
+                <!-- City -->
+                <div class="space-y-2">
+                    <label class="block font-medium">City</label>
+                    <input type="text" class="w-full p-3 border rounded-lg hover:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all duration-300"
+                           [(ngModel)]="post.city" name="city" required />
+                </div>
+
+                <!-- Collection Date and Time Slot -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="block font-medium">Collection Date</label>
+                        <input type="date" class="w-full p-3 border rounded-lg hover:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all duration-300"
+                               [(ngModel)]="post.collectionDate" name="collectionDate" required />
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block font-medium">Time Slot</label>
+                        <input type="time" min="09:00" max="18:00"
+                               class="w-full p-3 border rounded-lg hover:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all duration-300"
+                               [(ngModel)]="post.timeSlot" name="timeSlot" required />
+                    </div>
+                </div>
+
+                <!-- Additional Notes -->
+                <div class="space-y-2">
+                    <label class="block font-medium">Additional Notes</label>
+                    <textarea class="w-full p-3 border rounded-lg hover:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all duration-300 resize-none h-32"
+                              [(ngModel)]="post.additionalNotes" name="additionalNotes"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                        class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transform hover:scale-[1.02] transition-all duration-300">
+                    Publish Post
+                </button>
+            </form>
+        </div>
+    </main>
+</div>

@@ -1,0 +1,24 @@
+<!--<div style="display: flex; height: 100vh;">-->
+<!--  <app-side-bar></app-side-bar>-->
+<!--  <div style="flex: 1; display: flex; flex-direction: column;">-->
+<!--    <app-navbar-dashboard></app-navbar-dashboard>-->
+<!--    <div style="flex: 1; overflow: auto; padding: 20px;">-->
+<!--      <router-outlet></router-outlet>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div id="nav-dh">
+  <div class="w-full bg-white">
+    <app-navbar-dashboard></app-navbar-dashboard>
+    <div class="flex flex-col md:flex-row min-h-screen">
+      <app-side-bar class="md:w-64"></app-side-bar>
+      <div class="flex-1">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
