@@ -6,11 +6,12 @@
         <summary class="list-none cursor-pointer"> <span
           class="material-symbols-outlined text-2xl hover:text-[#2E7D32] transition-colors">account_circle</span>
         </summary>
-        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 border"> <a href="/dashboard/profile"
-                                                                                              class="block px-4 py-2 hover:bg-gray-50 transition-colors"> <span
-          class="material-symbols-outlined align-middle mr-2">person</span> My Profile </a> <a href="#"
-                                                                                               class="block px-4 py-2 hover:bg-gray-50 transition-colors"> <span
-          class="material-symbols-outlined align-middle mr-2">logout</span> Logout </a> </div>
+        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 border"> <a href="#"
+                                                                                               class="block px-4 py-2 hover:bg-gray-50 transition-colors"
+                                                                                               (click)="onLogout()">
+          <span class="material-symbols-outlined align-middle mr-2">logout</span>
+          Logout
+        </a> </div>
       </details>
     </div>
   </div>
