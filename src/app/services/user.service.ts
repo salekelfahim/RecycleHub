@@ -13,4 +13,8 @@ export class UserService {
   getUserData(userId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${userId}`);
   }
+
+  updateUserPoints(userId: number, points: number): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${userId}`, { points });
+  }
 }

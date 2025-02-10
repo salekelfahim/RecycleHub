@@ -21,7 +21,8 @@ export class RegisterComponent {
     password: '',
     dateOfBirth: '',
     address: '',
-    city: ''
+    city: '',
+    points: 0
   };
 
   constructor(private authService: AuthService, private router: Router) {}

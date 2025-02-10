@@ -4,6 +4,7 @@ import { AuthService } from "../../../services/auth.service";
 import { Router } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { NgForOf } from "@angular/common";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-post',
@@ -48,39 +49,85 @@ export class AddPostComponent {
 
       } catch (error) {
         console.error('Error converting files to base64:', error);
-        alert('Error processing images. Please try again.');
+        Swal.fire({
+          title: 'Error',
+          text: 'Error processing images. Please try again.',
+          icon: 'error'
+        });
       }
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
     const user = this.authService.getUser();
     this.post.userId = user.id;
 
+    try {
+      const pendingPosts = await this.http.get<any[]>(`http://localhost:3000/posts?userId=${user.id}&status=pending`).toPromise();
+
+      if (pendingPosts && pendingPosts.length >= 3) {
+        Swal.fire({
+          title: 'Limit Reached',
+          text: 'You already have 3 pending posts. You cannot add another one.',
+          icon: 'warning'
+        });
+        return;
+      }
+    } catch (error) {
+      console.error('Error fetching pending posts:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Unable to verify your pending posts. Please try again later.',
+        icon: 'error'
+      });
+      return;
+    }
+
     const totalWeight = this.post.wasteItems.reduce((sum, item) => sum + item.weight, 0);
     if (totalWeight < 1000) {
-      alert('Total weight must be at least 1000g.');
+      Swal.fire({
+        title: 'Weight Limit',
+        text: 'Total weight must be at least 1000g.',
+        icon: 'warning'
+      });
       return;
     }
     if (totalWeight > 10000) {
-      alert('Total weight cannot exceed 10kg.');
+      Swal.fire({
+        title: 'Weight Limit Exceeded',
+        text: 'Total weight cannot exceed 10kg.',
+        icon: 'warning'
+      });
       return;
     }
 
     if (this.post.wastePhotos.length === 0) {
-      alert('Please upload at least one photo of the waste.');
+      Swal.fire({
+        title: 'Photo Required',
+        text: 'Please upload at least one photo of the waste.',
+        icon: 'warning'
+      });
       return;
     }
 
     this.http.post('http://localhost:3000/posts', this.post).subscribe(
-        () => {
-          alert('Post created successfully!');
+      () => {
+        Swal.fire({
+          title: 'Post Created',
+          text: 'Your recycling post has been created successfully!',
+          icon: 'success'
+        }).then(() => {
           this.router.navigate(['/particulier/posts']);
-        },
-        (error) => {
-          console.error('Error creating post:', error);
-          alert('Error creating post');
-        }
+        });
+      },
+      (error) => {
+        console.error('Error creating post:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'There was an error creating your post. Please try again later.',
+          icon: 'error'
+        });
+      }
     );
   }
 

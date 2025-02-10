@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
-import {NavbarComponent} from "../../layout/navbar/navbar.component";
-import {FormsModule} from "@angular/forms";
+import { NavbarComponent } from "../../layout/navbar/navbar.component";
+import { FormsModule } from "@angular/forms";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -27,9 +28,24 @@ export class LoginComponent {
       if (users.length > 0) {
         const user = users[0];
         localStorage.setItem('user', JSON.stringify(user));
-        this.authService.redirectBasedOnRole(user);
+
+        Swal.fire({
+          title: 'Connexion réussie !',
+          text: 'Vous allez être redirigé...',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
+          this.authService.redirectBasedOnRole(user);
+        });
+
       } else {
-        alert('Invalid credentials');
+        Swal.fire({
+          title: 'Erreur',
+          text: 'Identifiants incorrects',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       }
     });
   }
